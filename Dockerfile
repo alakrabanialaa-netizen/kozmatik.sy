@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
 # Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -22,8 +22,8 @@ WORKDIR /var/www
 # Copy existing application directory
 COPY . /var/www
 
-# Install dependencies (مع إضافة التجاوز التجريبي للتثبيت المضمون)
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
+# Run composer install with no scripts first to prevent premature artisan execution
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 EXPOSE 80
 
